@@ -10,6 +10,9 @@ import { Map } from "./Map";
 import { useThree } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
 import { CharacterController } from "./CharacterController.jsx";
+import { useRose } from "@/contexts/RoseContext.jsx";
+import { Diamond } from "@/components/Diamond.jsx";
+import { getRandomInRange } from "@/util/utils.js";
 
 const maps = {
   castle_on_hills: {
@@ -49,6 +52,10 @@ export const Experience = () => {
     },
   });
 
+  const { foundRoses, roseMap } = useRose();
+
+  // console.log(roseMap.map((e) => e.found));
+
   return (
     <>
       {/*<OrbitControls ref={controlsRef} />*/}
@@ -76,6 +83,16 @@ export const Experience = () => {
           position={maps[map].position}
           model={`models/${map}.glb`}
         />
+        {/*<Diamond position={[-2, 0.1, 3]} isFound={false} />*/}
+        {/* 장미 위치에 다이아몬드 모델을 배치 */}
+        {roseMap.map((rose, index) => (
+          <Diamond
+            position={[rose.x, 0, rose.z]}
+            key={index}
+            isFound={rose.found}
+          />
+        ))}
+
         <CharacterController />
       </Physics>
     </>

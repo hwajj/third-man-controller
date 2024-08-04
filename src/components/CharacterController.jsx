@@ -5,7 +5,8 @@ import { useControls } from "leva";
 import { useEffect, useRef, useState } from "react";
 import { MathUtils, Vector3 } from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
-import { Fox } from "./Fox.jsx";
+import { Fox } from "@/components/Fox.jsx";
+import { useRose } from "@/contexts/RoseContext.jsx";
 
 const normalizeAngle = (angle) => {
   while (angle > Math.PI) angle -= 2 * Math.PI;
@@ -57,6 +58,7 @@ export const CharacterController = () => {
   const characterWorldPosition = useRef(new Vector3());
   const [, get] = useKeyboardControls();
   const isClicking = useRef(false);
+  const { checkAndRemoveRose } = useRose();
 
   useEffect(() => {
     const onMouseDown = (e) => {
@@ -159,7 +161,11 @@ export const CharacterController = () => {
       camera.lookAt(cameraLookAt.current);
     }
     character.current.getWorldPosition(characterWorldPosition.current);
-    console.log(characterWorldPosition.current);
+    if (character.current) {
+      character.current.getWorldPosition(characterWorldPosition.current);
+      checkAndRemoveRose(characterWorldPosition.current);
+      // console.log(characterWorldPosition.current);
+    }
   });
 
   return (
