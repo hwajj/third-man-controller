@@ -24,11 +24,7 @@ const maps = {
     position: [-10, 0, 0],
     rotation: [0, 0, 0],
   },
-  billys_house2: {
-    scale: 44,
-    position: [-10, 0, 0],
-    rotation: [0, 0, 0],
-  },
+
   buildings: {
     scale: 20,
     position: [-15, -1, 10],
@@ -45,12 +41,12 @@ export const Experience = () => {
   const foxRef = useRef();
   const { camera } = useThree();
   // useControls로 scale, position, rotation을 관리
-  const { map } = useControls("Map", {
-    map: {
-      value: "billys_house",
-      options: Object.keys(maps),
-    },
-  });
+  /*  const { map } = useControls("Map", {
+      map: {
+        value: "billys_house",
+        options: Object.keys(maps),
+      },
+    });*/
 
   const { foundRoses, roseMap } = useRose();
 
@@ -77,11 +73,12 @@ export const Experience = () => {
           attach={"shadow-camera"}
         />
       </directionalLight>
-      <Physics debug>
+      {/*<Physics debug>*/}
+      <Physics>
         <Map
-          scale={maps[map].scale}
-          position={maps[map].position}
-          model={`models/${map}.glb`}
+          scale={maps.billys_house.scale}
+          position={maps.billys_house.position}
+          model={`models/billys_house.glb`}
         />
         {/*<Diamond position={[-2, 0.1, 3]} isFound={false} />*/}
         {/* 장미 위치에 다이아몬드 모델을 배치 */}
